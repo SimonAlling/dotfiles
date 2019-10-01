@@ -1,0 +1,12 @@
+[user]
+	email = alling.simon@gmail.com
+	name = Simon Alling
+[alias]
+	s = status
+	d = diff
+	lo = log --oneline
+	ds = diff --staged
+	cm = commit -m
+	ca = commit --amend
+	ri = rebase -i
+	ap = add -p
