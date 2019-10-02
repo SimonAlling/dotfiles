@@ -10,3 +10,4 @@
 	ca = commit --amend
 	ri = rebase -i
 	ap = add -p
+	lob = log --oneline --decorate --graph --branches
