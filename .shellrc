@@ -1,0 +1,12 @@
+export EDITOR="vim"
+
+# Aliases
+alias ..="cd .."
+alias g="git"
+alias l='ls -CF'
+alias ll="ls -al"
+alias sv="sudo vim"
+alias v="vim"
+
+# Propagate aliases to sudo
+alias sudo="sudo "
