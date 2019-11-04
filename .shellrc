@@ -1,3 +1,5 @@
+GORC=".gorc"
+
 export EDITOR="vim"
 
 # Aliases
@@ -10,3 +12,8 @@ alias v="vim"
 
 # Propagate aliases to sudo
 alias sudo="sudo "
+
+# Go
+if [[ -f "$HOME/$GORC" ]]; then
+    . "$HOME/$GORC"
+fi
