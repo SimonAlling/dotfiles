@@ -11,3 +11,6 @@
 	ri = rebase -i
 	ap = add -p
 	lob = log --oneline --decorate --graph --branches
+[core]
+	excludesFile = /home/alling/.gitignore
+	quotepath = off # so special characters are shown verbatim in file names
