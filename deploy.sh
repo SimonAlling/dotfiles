@@ -17,6 +17,9 @@ for f in "${FILES_TO_COPY_TO_HOME[@]}"; do
     cp "$f" "$HOME"
 done
 
+# Create Vim undo dir
+mkdir -p $HOME/.vimundo
+
 # Configure shell
 if [[ -f "$REAL_RC_FILE" ]]; then
     if [[ -z $(grep -Fx "$REAL_RC_FILE_ADDITION" "$REAL_RC_FILE") ]]; then
