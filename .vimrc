@@ -28,6 +28,7 @@ endif
 
 " Automatic HALLOJ debugging (adds HALLOJ at the top of each function)
 function! HallojGo()
-    :%s/\v^(func (\w+)\(.+)$/\1\rfmt.Println("HALLOJ \2")/
+    " 'func', then maybe a "this", then the function name, and then the rest of the line:
+    :%s_\v^(func (\(.+\) )?(\w+)\(.+)$_\1\rfmt.Println("HALLOJ \3")_
     :w
 endfun
