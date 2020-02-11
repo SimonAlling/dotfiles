@@ -25,3 +25,9 @@ if has("persistent_undo")
     set undodir=~/.vimundo/
     set undofile
 endif
+
+" Automatic HALLOJ debugging (adds HALLOJ at the top of each function)
+function! HallojGo()
+    :%s/\v^(func (\w+)\(.+)$/\1\rfmt.Println("HALLOJ \2")/
+    :w
+endfun
