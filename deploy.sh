@@ -4,17 +4,19 @@ readonly REAL_RC_FILE="$HOME/.bashrc"
 readonly CONFIG_FILE=".shellrc" # must not contain spaces
 readonly REAL_RC_FILE_ADDITION=". ~/$CONFIG_FILE"
 readonly GITCONFIG=".gitconfig"
+readonly DOTCONFIG=".config"
 readonly VIMRC=".vimrc"
 declare -a FILES_TO_COPY_TO_HOME=(
     "$CONFIG_FILE"
     "$GITCONFIG"
     "$VIMRC"
+    "$DOTCONFIG"
 )
 
 # Deploy files
 for f in "${FILES_TO_COPY_TO_HOME[@]}"; do
     echo "Copying ${f} to home directory..."
-    cp "$f" "$HOME"
+    cp -R "$f" "$HOME"
 done
 
 # Create Vim undo dir
