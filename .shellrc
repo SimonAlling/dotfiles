@@ -9,6 +9,8 @@ alias l='ls -CF'
 alias ll="ls -al"
 alias sv="sudo vim"
 alias v="vim"
+alias k="kubectl"
+alias h="helm"
 
 # Propagate aliases to sudo
 alias sudo="sudo "
