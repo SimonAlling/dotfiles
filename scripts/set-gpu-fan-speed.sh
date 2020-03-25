@@ -10,4 +10,4 @@ set -e
 for speed in $STEPS; do
     nvidia-settings -a "[gpu:0]/GPUFanControlState=1" -a "[fan:0]/GPUTargetFanSpeed=$speed"
     sleep $STEP_INTERVAL
-done
+done &
