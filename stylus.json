@@ -1,0 +1,23 @@
+[
+	{
+		"enabled": true,
+		"updateUrl": null,
+		"md5Url": null,
+		"url": null,
+		"originalMd5": null,
+		"installDate": 1585214413643,
+		"name": "Better Google Search Results",
+		"sections": [
+			{
+				"code": "div.rc div.s + div {\n    display: none !important;\n}",
+				"regexps": [
+					"https?:\\/\\/(www\\.)?google\\.com\\/search\\b.*"
+				]
+			}
+		],
+		"updateDate": 1585214425074,
+		"_id": "a2c59f01-373f-4976-a7b6-0afc262697e0",
+		"_rev": 1585214425074,
+		"id": 1
+	}
+]
