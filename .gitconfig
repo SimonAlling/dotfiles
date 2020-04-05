@@ -12,6 +12,8 @@
 	ri = rebase -i
 	ap = add -p
 	lob = log --oneline --decorate --graph --branches
+	update = !git checkout master && git pull
+	my = ![ -z "$1" ] && echo "Usage: git my REPO_NAME" && exit 1 || git clone git@github.com:SimonAlling/$1
 [core]
 	excludesFile = /home/alling/.gitignore
 	quotepath = off # so special characters are shown verbatim in file names
