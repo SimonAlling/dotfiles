@@ -3,11 +3,11 @@
 SCRIPTS_DIR='scripts'
 TARGET_DIR='/etc/profile.d'
 SCRIPT_NAME='set-gpu-fan-speed.sh'
-COOL_BITS=4 # https://wiki.archlinux.org/index.php/NVIDIA/Tips_and_tricks#Enabling_overclocking
+COOL_BITS=31 # https://wiki.archlinux.org/index.php/NVIDIA/Tips_and_tricks#Enabling_overclocking
 
 set -e
 
-echo "Enabling Nvidia fan speed control ..."
+echo "Unlocking Nvidia settings ..."
 sudo nvidia-xconfig -a --cool-bits=${COOL_BITS} --allow-empty-initial-configuration
 
 echo "Copying fan speed script to '${TARGET_DIR}' ..."
