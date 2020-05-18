@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
-SCRIPTS_DIR='scripts'
-TARGET_DIR='/etc/profile.d'
+source common.sh
+
+TARGET_DIR="${PROFILE_SCRIPTS_DIR}"
 SCRIPT_NAME='set-gpu-fan-speed.sh'
 COOL_BITS=31 # https://wiki.archlinux.org/index.php/NVIDIA/Tips_and_tricks#Enabling_overclocking
 

@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
-SCRIPTS_DIR='scripts'
-TARGET_DIR='/etc/profile.d'
+source common.sh
+
+TARGET_DIR="${PROFILE_SCRIPTS_DIR}"
 SCRIPT_NAME='monitor-setup/default.sh'
 SCRIPT_NAME_IN_TARGET_DIR='monitor-setup.sh'
 
