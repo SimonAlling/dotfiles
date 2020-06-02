@@ -8,6 +8,7 @@
 	ds = diff --staged
 	cm = commit -m
 	ca = commit --amend
+	c = checkout
 	cb = checkout -b
 	ri = rebase -i
 	ap = add -p
