@@ -1,2 +1,18 @@
-nvidia-settings --assign "CurrentMetaMode=DPY-3: 2560x1440_120 @1440x2560 +3840+0 {ViewPortIn=1440x2560, ViewPortOut=2560x1440+0+0, Rotation=90}, DPY-0: 3840x2160_120 @3840x2160 +0+200 {ViewPortIn=3840x2160, ViewPortOut=3840x2160+0+0}"
-xrandr --output DP-0 --primary
+readonly PRIMARY="DP-2"
+readonly PRIMARY_WIDTH=3840
+readonly PRIMARY_HEIGHT=2160
+
+readonly SECONDARY_WIDTH=2560
+readonly SECONDARY_HEIGHT=1440
+readonly SECONDARY="DP-0"
+
+readonly REFRESH_RATE=120
+
+let primary_y=(${SECONDARY_WIDTH}-$PRIMARY_HEIGHT)/2
+
+primary_mode="${PRIMARY_WIDTH}x${PRIMARY_HEIGHT}_${REFRESH_RATE} @${PRIMARY_WIDTH}x${PRIMARY_HEIGHT} +0+${primary_y} {ViewPortIn=${PRIMARY_WIDTH}x${PRIMARY_HEIGHT}, ViewPortOut=${PRIMARY_WIDTH}x${PRIMARY_HEIGHT}+0+0}"
+
+secondary_mode="${SECONDARY_WIDTH}x${SECONDARY_HEIGHT}_${REFRESH_RATE} @${SECONDARY_HEIGHT}x${SECONDARY_WIDTH} +${PRIMARY_WIDTH}+0 {ViewPortIn=${SECONDARY_HEIGHT}x${SECONDARY_WIDTH}, ViewPortOut=${SECONDARY_WIDTH}x${SECONDARY_HEIGHT}+0+0, Rotation=90}"
+
+nvidia-settings --assign "CurrentMetaMode=${PRIMARY}: ${primary_mode}, ${SECONDARY}: ${secondary_mode}"
+xrandr --output "${PRIMARY}" --primary
