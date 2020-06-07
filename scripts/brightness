@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+readonly REGEX_CURRENT_VALUE='^Control 0x[[:digit:]]+: \+/([[:digit:]]+)/[[:digit:]]+.*'
+readonly KEYWORD_UP="up"
+readonly KEYWORD_DOWN="down"
+readonly STEP=20
+
+readonly DEVICE="/dev/i2c-7"
+readonly ADDRESS=0x10
+
+set -e
+
+shopt -s extglob # so +() patterns work
+case "$1" in
+    "${KEYWORD_UP}")
+        multiplier=1
+        ;;
+    "${KEYWORD_DOWN}")
+        multiplier=-1
+        ;;
+    +([[:digit:]]))
+        new_brightness=$1
+        ;;
+    *)
+        echo "Usage: $0 [${KEYWORD_UP}|${KEYWORD_DOWN}|<brightness>]"
+        exit 1;
+        ;;
+esac
+
+current_brightness=$(ddccontrol dev:${DEVICE} -r ${ADDRESS} | grep -E "${REGEX_CURRENT_VALUE}" | sed -E "s#${REGEX_CURRENT_VALUE}#\1#")
+
+if [[ -z "$new_brightness" ]]; then
+    let new_brightness=current_brightness+$STEP*$multiplier
+fi
+
+ddccontrol dev:${DEVICE} -r ${ADDRESS} -w ${new_brightness}
