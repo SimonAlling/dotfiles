@@ -60,6 +60,7 @@ in
 imports =
   [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ./nextcloud.nix
     ./users.nix
     ./webserver.nix
   ];
@@ -246,6 +247,6 @@ services.openvpn = {
 };
 
 # The NixOS release to be compatible with for stateful data such as databases.
-system.stateVersion = "17.03";
+system.stateVersion = "20.03";
 
 }

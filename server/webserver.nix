@@ -4,6 +4,7 @@
 
 security.acme.certs = {
   "simonalling.se" = {
+    domain = "*.simonalling.se";
     email = "alling.simon@gmail.com";
   };
 };
@@ -47,6 +48,10 @@ services.nginx = {
       };
     };
     "www.simonalling.se" = {
+      forceSSL = true;
+      enableACME = true;
+    };
+    "cloud.simonalling.se" = {
       forceSSL = true;
       enableACME = true;
     };
