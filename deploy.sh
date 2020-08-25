@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+source common.sh
+
 readonly REAL_RC_FILE="$HOME/.bashrc"
 readonly CONFIG_FILE=".shellrc" # must not contain spaces
 readonly REAL_RC_FILE_ADDITION=". ~/$CONFIG_FILE"

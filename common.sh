@@ -1,3 +1,5 @@
+set -euo pipefail
+
 DESKTOP_ENTRIES_SOURCE="desktop-entries"
 DESKTOP_ENTRIES_TARGET="/usr/share/applications"
 SCRIPTS_DIR='scripts'
