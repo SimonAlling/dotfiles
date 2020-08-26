@@ -1,5 +1,7 @@
 GORC=".gorc"
 
+shopt -s globstar
+
 export EDITOR="vim"
 
 # Aliases
