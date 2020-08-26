@@ -14,6 +14,17 @@ alias v="vim"
 alias k="kubectl"
 alias h="helm"
 
+function git {
+  # Without the --help check, `git push --help` just prints "'push-or-notify-on-failure' is aliased to '...'" (https://stackoverflow.com/a/39357426).
+  if [[ "$1" == "push" && "$@" != *"--help"* ]]; then
+    shift 1
+    # https://askubuntu.com/questions/512770/what-is-use-of-command-command
+    command git push-or-notify-on-failure "$@"
+  else
+    command git "$@"
+  fi
+}
+
 # Propagate aliases to sudo
 alias sudo="sudo "
 

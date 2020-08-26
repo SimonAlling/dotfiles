@@ -15,6 +15,14 @@
 	lob = log --oneline --decorate --graph --branches
 	update = !git checkout master && git pull
 	my = ![ -z "$1" ] && echo "Usage: git my REPO_NAME" && exit 1 || git clone git@github.com:SimonAlling/$1
+	# That the next command works is a miracle. Explanations:
+	#   * The entire alias must be quoted because ; starts a comment otherwise.
+	#   * We don't want to send a notification for immediate errors, but only those that arise after "a while" – in particular, when the push is rejected by the remote.
+	#   * Explicitly running Bash is necessary because (()) arithmetic doesn't work in sh.
+	#   * We build a command and then execute it so we have greater control over variable expansion and whatnot. In particular, $@ (the arguments to `git pull`) is not available once inside Bash.
+	#   * Backslashes when assigning T0 and T1 are necessary to run `date` in Bash and not when creating the Bash command.
+	#   * +%s%3N effectively means milliseconds since the UNIX epoch (https://serverfault.com/a/588705).
+	push-or-notify-on-failure = "!f() { A_WHILE=250; cmd=\"T0=\\$(date +%s%3N); git push $@ || T1=\\$(date +%s%3N); if (( T1 - T0 > $A_WHILE )); then notify-send --urgency critical --icon important 'Git push failed'; fi\"; bash -c \"$cmd\"; }; f"
 [core]
 	excludesFile = /home/alling/.gitignore
 	quotepath = off # so special characters are shown verbatim in file names
