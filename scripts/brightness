@@ -1,14 +1,57 @@
 #!/usr/bin/env bash
 
 readonly REGEX_CURRENT_VALUE='^Control 0x[[:digit:]]+: \+/([[:digit:]]+)/[[:digit:]]+.*'
+readonly REGEX_MONITOR_NAME='^\s+Plug and Play ID: \w+ \[(.+)\]'
 readonly KEYWORD_UP="up"
 readonly KEYWORD_DOWN="down"
 readonly STEP=20
+readonly MAX=100
+readonly MIN=0
 
-readonly DEVICE="/dev/i2c-7"
 readonly ADDRESS=0x10
 
+# On my system, monitors will be on /dev/i2c-n, where n ∈ [I2C_START, I2C_END].
+# sudo i2cdetect -l
+readonly I2C_START=4
+readonly I2C_END=10
+
 set -e
+
+get_new_relative_brightness() {
+    local device=$1
+    local multiplier=$2
+    local current_brightness=$(ddccontrol dev:${device} -r ${ADDRESS} 2> /dev/null | grep -E "${REGEX_CURRENT_VALUE}" | sed -E "s%${REGEX_CURRENT_VALUE}%\1%")
+    if [ -n "$current_brightness" ]; then
+        echo $((current_brightness+$STEP*$multiplier))
+    fi
+}
+
+try_to_set_brightness() {
+    local device=$1
+    local raw_desired_brightness=$2
+    local valid_brightness=$raw_desired_brightness
+    if ((valid_brightness > $MAX)); then valid_brightness=$MAX; fi
+    if ((valid_brightness < $MIN)); then valid_brightness=$MIN; fi
+    local output=$(ddccontrol dev:${device} -r ${ADDRESS} -w ${valid_brightness} 2> /dev/null)
+    if $(echo "$output" | grep -qE "${REGEX_CURRENT_VALUE}"); then
+        # New brightness was successfully set.
+        local monitor_name=$(echo "$output" | grep -E "${REGEX_MONITOR_NAME}" | sed -E "s%${REGEX_MONITOR_NAME}%\1%")
+        echo "${monitor_name}: ${valid_brightness}"
+    fi
+}
+
+maybe_set_brightness() {
+    local device=$1
+    local user_specified_brightness=$2
+    if [ -n "$user_specified_brightness" ]; then
+        try_to_set_brightness $device $user_specified_brightness
+    else
+        local new_relative_brightness=$(get_new_relative_brightness $device $multiplier)
+        if [ -n "$new_relative_brightness" ]; then
+            try_to_set_brightness $device $new_relative_brightness
+        fi
+    fi
+}
 
 shopt -s extglob # so +() patterns work
 case "$1" in
@@ -19,7 +62,7 @@ case "$1" in
         multiplier=-1
         ;;
     +([[:digit:]]))
-        new_brightness=$1
+        user_specified_brightness=$1
         ;;
     *)
         echo "Usage: $0 [${KEYWORD_UP}|${KEYWORD_DOWN}|<brightness>]"
@@ -27,10 +70,7 @@ case "$1" in
         ;;
 esac
 
-current_brightness=$(ddccontrol dev:${DEVICE} -r ${ADDRESS} | grep -E "${REGEX_CURRENT_VALUE}" | sed -E "s#${REGEX_CURRENT_VALUE}#\1#")
-
-if [[ -z "$new_brightness" ]]; then
-    let new_brightness=current_brightness+$STEP*$multiplier
-fi
-
-ddccontrol dev:${DEVICE} -r ${ADDRESS} -w ${new_brightness}
+for i in $(seq ${I2C_START} ${I2C_END}); do
+    maybe_set_brightness "/dev/i2c-$i" "$user_specified_brightness" &
+done
+wait
