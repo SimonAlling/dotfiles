@@ -10,6 +10,7 @@ declare -a FILES_TO_COPY_TO_HOME=(
     ".config"
     ".gitconfig"
     ".gitignore"
+    ".npmrc"
     ".vimrc"
 )
 

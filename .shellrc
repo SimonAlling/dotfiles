@@ -25,6 +25,8 @@ function git {
   fi
 }
 
+export PATH="${HOME}/.npm/node_modules/bin:${PATH}"
+
 # Propagate aliases to sudo
 alias sudo="sudo "
 
