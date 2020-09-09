@@ -7,6 +7,7 @@ readonly STEP=20
 readonly MAX=100
 readonly MIN=0
 
+readonly DDC_TOOL=ddcutil
 readonly ADDRESS=0x10
 
 # On my system, monitors will be on /dev/i2c-n, where n ∈ [I2C_START, I2C_END].
@@ -19,7 +20,7 @@ set -e
 get_new_relative_brightness() {
     local i2c_number=$1
     local multiplier=$2
-    local current_brightness=$(ddcutil --bus ${i2c_number} getvcp ${ADDRESS} | grep --only-matching -E "${REGEX_CURRENT_VALUE}" | sed -E "s%${REGEX_CURRENT_VALUE}%\1%")
+    local current_brightness=$(${DDC_TOOL} --bus ${i2c_number} getvcp ${ADDRESS} | grep --only-matching -E "${REGEX_CURRENT_VALUE}" | sed -E "s%${REGEX_CURRENT_VALUE}%\1%")
     if [ -n "$current_brightness" ]; then
         echo $((current_brightness+$STEP*$multiplier))
     fi
@@ -31,7 +32,7 @@ try_to_set_brightness() {
     local valid_brightness=$raw_desired_brightness
     if ((valid_brightness > $MAX)); then valid_brightness=$MAX; fi
     if ((valid_brightness < $MIN)); then valid_brightness=$MIN; fi
-    ddcutil \
+    ${DDC_TOOL} \
         --noverify `# faster` \
         --bus ${i2c_number} \
         setvcp ${ADDRESS} ${valid_brightness} \
@@ -50,6 +51,23 @@ maybe_set_brightness() {
         fi
     fi
 }
+
+if ! which ${DDC_TOOL} > /dev/null; then
+    echo "Please make sure ${DDC_TOOL} is on your PATH and executable."
+    exit 1
+fi
+
+if [ $(id -u) -ne 0 ]; then
+    # Script not run as root.
+    if [ ! -u $(which ${DDC_TOOL}) ]; then
+        # DDC tool doesn't have SUID bit set.
+        echo "Please run as root or set the SUID bit for ${DDC_TOOL}:"
+        echo
+        echo "    sudo chmod +s \$(which ${DDC_TOOL})"
+        echo
+        exit 1
+    fi
+fi
 
 shopt -s extglob # so +() patterns work
 case "$1" in
