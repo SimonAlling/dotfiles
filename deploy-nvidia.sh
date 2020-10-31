@@ -10,5 +10,9 @@ set -e
 echo "Copying VS Code desktop entries to ${DESKTOP_ENTRIES_TARGET}..."
 sudo cp ${DESKTOP_ENTRIES_SOURCE}/nvidia/code*.desktop ${DESKTOP_ENTRIES_TARGET}
 
+# Deploy OBS desktop entry with replay buffer autostart:
+echo "Copying OBS desktop entry to ${DESKTOP_ENTRIES_TARGET}..."
+sudo cp ${DESKTOP_ENTRIES_SOURCE}/nvidia/com.obsproject.Studio.desktop ${DESKTOP_ENTRIES_TARGET}
+
 echo "Unlocking Nvidia settings ..."
 sudo nvidia-xconfig -a --cool-bits=${COOL_BITS} --allow-empty-initial-configuration
