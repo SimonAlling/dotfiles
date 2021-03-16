@@ -23,5 +23,5 @@
 	#   * +%s%3N effectively means milliseconds since the UNIX epoch (https://serverfault.com/a/588705).
 	push-or-notify-on-failure = "!f() { A_WHILE=250; cmd=\"T0=\\$(date +%s%3N); git push $@ || T1=\\$(date +%s%3N); if (( T1 - T0 > $A_WHILE )); then notify-send --urgency critical --icon important 'Git push failed'; fi\"; bash -c \"$cmd\"; }; f"
 [core]
-	excludesFile = /home/alling/.gitignore
+	excludesFile = ~/.gitignore
 	quotepath = off # so special characters are shown verbatim in file names
