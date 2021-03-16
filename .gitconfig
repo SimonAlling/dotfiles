@@ -12,7 +12,7 @@
 	ri = rebase -i
 	ap = add -p
 	lob = log --oneline --decorate --graph --branches
-	update = !git checkout master && git pull
+	update = "!{ if [ -n \"$(git branch --list main)\" ]; then git checkout main; else git checkout master; fi } && git pull"
 	my = ![ -z "$1" ] && echo "Usage: git my REPO_NAME" && exit 1 || git clone git@github.com:SimonAlling/$1
 	# That the next command works is a miracle. Explanations:
 	#   * The entire alias must be quoted because ; starts a comment otherwise.
