@@ -1,5 +1,6 @@
 [user]
 	name = Simon Alling
+	# E-mail deliberately omitted because I prefer to set it per repository.
 [alias]
 	s = status
 	d = diff
