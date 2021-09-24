@@ -9,6 +9,7 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias g="git"
+alias diff="git diff --no-index"
 alias l='ls -CF'
 alias ll="ls -al"
 alias sv="sudo vim"
