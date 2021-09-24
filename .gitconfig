@@ -10,6 +10,7 @@
 	ca = commit --amend
 	c = checkout
 	cb = checkout -b
+	cp = checkout -p
 	ri = rebase -i
 	ap = add -p
 	lob = log --oneline --decorate --graph --branches
