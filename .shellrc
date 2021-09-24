@@ -6,6 +6,8 @@ export EDITOR="vim"
 
 # Aliases
 alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
 alias g="git"
 alias l='ls -CF'
 alias ll="ls -al"
