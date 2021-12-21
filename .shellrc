@@ -35,7 +35,7 @@ export PATH="${HOME}/.npm/node_modules/bin:${PATH}"
 alias sudo="sudo "
 
 # Go
-export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
 if [[ -f "$HOME/$GORC" ]]; then
     . "$HOME/$GORC"
 fi
