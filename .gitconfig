@@ -14,6 +14,13 @@
 	ri = rebase -i
 	ap = add -p
 	lob = log --oneline --decorate --graph --branches
+	# About the next command:
+	#   * The entire alias must be quoted because ; starts a comment otherwise.
+	#   * Explicitly running Bash is necessary because set -o pipefail doesn't work in sh, etc.
+	#   * We first build a command and then execute it so we have greater control over variable expansion and whatnot. In particular, $@ (the arguments given by the user) is not available once inside Bash.
+	#   * Escaping $ with backslashes is necessary to reference variables IN the Bash command (as opposed to variables in scope when CREATING the Bash command).
+	#   * "Git aliases that run shell commands are always executed in the top level directory (see the git config man page)" 👉 https://stackoverflow.com/a/10868614/2135002
+	find = "!f() ( cmd=\"set -euo pipefail; echo '$(tput setaf 3)🔎 File contents:$(tput sgr0)'; git grep --color -E $@ | cat || [ \\$? -eq 1 ]; echo '$(tput setaf 3)🔎 File names:$(tput sgr0)'; git ls-files --full-name | grep -E --color=always $@ | cat || [ \\$? -eq 1 ]\"; bash -ci \"$cmd\"; ); f"
 	update = "!{ if [ -n \"$(git branch --list main)\" ]; then git checkout main; else git checkout master; fi } && git pull"
 	my = ![ -z "$1" ] && echo "Usage: git my REPO_NAME" && exit 1 || git clone git@github.com:SimonAlling/$1
 	# That the next command works is a miracle. Explanations:
