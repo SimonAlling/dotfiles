@@ -14,6 +14,7 @@
 	ri = rebase -i
 	ap = add -p
 	lob = log --oneline --decorate --graph --branches
+	whitespace-errors = !git diff-tree --check $(git hash-object -t tree /dev/null) HEAD # http://peter.eisentraut.org/blog/2014/11/04/checking-whitespace-with-git
 	# About the next command:
 	#   * The entire alias must be quoted because ; starts a comment otherwise.
 	#   * Explicitly running Bash is necessary because set -o pipefail doesn't work in sh, etc.
