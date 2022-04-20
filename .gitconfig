@@ -14,7 +14,12 @@
 	ri = rebase -i
 	ap = add -p
 	lob = log --oneline --decorate --graph --branches
-	whitespace-errors = !git diff-tree --check $(git hash-object -t tree /dev/null) HEAD # http://peter.eisentraut.org/blog/2014/11/04/checking-whitespace-with-git
+	# About the next command:
+	#   * It is based on https://peter.eisentraut.org/blog/2014/11/04/checking-whitespace-with-git.
+	#   * The default diff.new color, green, may be perceived as representing correctness or addition.
+	#   * diff shows carriage returns (^M) etc clearly, unlike diff-tree.
+	#   * --color enables colored output in non-tty contexts.
+	whitespace-errors = !git -c "color.diff.new=yellow" diff --color --check $(git hash-object -t tree /dev/null) HEAD
 	# About the next command:
 	#   * The entire alias must be quoted because ; starts a comment otherwise.
 	#   * Explicitly running Bash is necessary because set -o pipefail doesn't work in sh, etc.
