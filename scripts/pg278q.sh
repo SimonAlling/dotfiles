@@ -37,4 +37,3 @@ echo "Applying mode …"
 sleep 1
 xrandr --output ${output} --mode ${mode_name}
 wait
-
