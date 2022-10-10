@@ -2,8 +2,15 @@
 
 source common.sh
 
+function isWorkMode() {
+    [[ "${WORK:-}" == 'true' ]]
+}
+
+echo -n "Work mode: "; isWorkMode && echo -e "${BOLD}${GREEN}YES${RESET}" || echo -e "${BOLD}${RED}NO${RESET}"
+
 readonly REAL_RC_FILE="$HOME/.bashrc"
 readonly CONFIG_FILE=".shellrc" # must not contain spaces
+readonly CONFIG_FILE_WORK=".shellrc.work" # must not contain spaces
 declare -a FILES_TO_COPY_TO_HOME=(
     "$CONFIG_FILE"
     ".config"
@@ -12,6 +19,7 @@ declare -a FILES_TO_COPY_TO_HOME=(
     ".npmrc"
     ".vimrc"
 )
+isWorkMode && FILES_TO_COPY_TO_HOME+=("$CONFIG_FILE_WORK")
 
 # Deploy files
 for f in "${FILES_TO_COPY_TO_HOME[@]}"; do
@@ -35,3 +43,4 @@ function addToRealRcFile() {
     fi
 }
 addToRealRcFile ". ~/$CONFIG_FILE"
+isWorkMode && addToRealRcFile ". ~/$CONFIG_FILE_WORK"
