@@ -1,1 +1,19 @@
+function code {
+    case "$1" in
+        *\.) # Target scenario: TypeScript compiler output files next to .ts source files; user has entered '[…]foo.' through tab completion.
+            local inferredPath="$1ts"
+            ;;
+        *\/) # Target scenario: 'foo/foo.ts' convention; user has entered 'foo/' through tab completion.
+            local inferredPath="$1$(basename "$1").ts"
+            ;;
+    esac
+    if [[ -n "${inferredPath:-}" && -f "$inferredPath" ]]; then
+        echo "Opening '$inferredPath' …"
+        shift 1
+        command code "$inferredPath" "$@"
+    else
+        command code "$@"
+    fi
+}
+
 export NODE_TLS_REJECT_UNAUTHORIZED=0
