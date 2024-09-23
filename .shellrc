@@ -39,3 +39,6 @@ export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
 if [[ -f "$HOME/$GORC" ]]; then
     . "$HOME/$GORC"
 fi
+
+# Elm
+export ELM_WATCH_OPEN_EDITOR='code --goto "$file:$line:$column"'
