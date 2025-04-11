@@ -18,6 +18,8 @@ alias v="vim"
 alias k="kubectl"
 alias h="helm"
 
+export PS1='\[\e[1;37;$(($??41:44))m\]\w\[\e[0m\]\[\e[0;32m\]$(__git_ps1)\[\e[0m\] \$ '
+
 function git {
   # Without the --help check, `git push --help` just prints "'push-or-notify-on-failure' is aliased to '...'" (https://stackoverflow.com/a/39357426).
   if [[ "$1" == "push" && "$@" != *"--help"* ]]; then
