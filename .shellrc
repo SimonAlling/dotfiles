@@ -42,3 +42,8 @@ fi
 
 # Elm
 export ELM_WATCH_OPEN_EDITOR='code --goto "$file:$line:$column"'
+
+# Tab completion (Git)
+if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+  . /etc/bash_completion
+fi
