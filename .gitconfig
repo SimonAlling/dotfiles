@@ -37,6 +37,13 @@
 	#   * Backslashes when assigning T0 and T1 are necessary to run `date` in Bash and not when creating the Bash command.
 	#   * +%s%3N effectively means milliseconds since the UNIX epoch (https://serverfault.com/a/588705).
 	push-or-notify-on-failure = "!f() { A_WHILE=250; cmd=\"T0=\\$(date +%s%3N); git push $@ || T1=\\$(date +%s%3N); if (( T1 - T0 > $A_WHILE )); then notify-send --urgency critical --icon important 'Git push failed'; fi\"; bash -c \"$cmd\"; }; f"
+	# About the next command:
+	#   * It should fail gracefully if no PR ID is specified.
+	#   * It should fail gracefully if no matching commit is found (for example because the PR doesn't exist, hasn't been merged, etc).
+	#   * The `git branch --list` command is intended to make the whole command look for PR commits on the trunk, which is usually named `main` or `master`.
+	#   * `true` at the end prevents "fatal: ambiguous argument '12345': unknown revision or path not in the working tree.".
+	#   * Escaping quotes correctly is a nightmare.
+	pr = ![ -z "$1" ] && echo "Usage: git pr PULL_REQUEST_ID" && exit 1 || pattern=\"Merged PR $1:\" && hash=$(git log --max-count=1 --format="%H" --grep=\"$pattern\" $(git branch --list --format='%(refname:short)' main master)) && [ -z "$hash" ] && echo "No commit matching \\'$pattern\\' found." && exit 1 || git show $hash && true
 [core]
 	excludesFile = ~/.gitignore
 	quotepath = off # so special characters are shown verbatim in file names
