@@ -16,7 +16,6 @@ declare -a FILES_TO_COPY_TO_HOME=(
     ".config"
     ".gitconfig"
     ".gitignore"
-    ".npmrc"
     ".vimrc"
 )
 isWorkMode && FILES_TO_COPY_TO_HOME+=("$CONFIG_FILE_WORK")
