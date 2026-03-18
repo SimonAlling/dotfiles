@@ -13,4 +13,13 @@
       "ctrl-tab": "pane::ActivateNextItem",
     },
   },
+  {
+    "context": "Editor",
+    "bindings": {
+      "alt-up": "editor::LineUp",
+      "alt-down": "editor::LineDown",
+      "ctrl-up": "editor::MoveLineUp",
+      "ctrl-down": "editor::MoveLineDown",
+    },
+  },
 ]
