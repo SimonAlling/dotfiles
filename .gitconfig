@@ -40,3 +40,4 @@
 [core]
 	excludesFile = ~/.gitignore
 	quotepath = off # so special characters are shown verbatim in file names
+	commentchar = ";"
